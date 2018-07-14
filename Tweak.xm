@@ -68,7 +68,7 @@ AVAudioPlayer *lowplayer;
     //The same as above but this time with the low health
     if (lowenabled) {
       if ([batString isEqualToString:lowbatPercent_String]) {
-        if (player) {
+        if (lowplayer) {
           return;
         }
 

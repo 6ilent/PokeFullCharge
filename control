@@ -1,7 +1,7 @@
 Package: com.6ilent.pokefullcharge
 Name: PokeFullCharge
 Depends: mobilesubstrate
-Version: 1.1.0
+Version: 1.1.1
 Architecture: iphoneos-arm
 Description: Play the Pokémon Center jingle when charged or uncharged!
 Maintainer: 6ilent <pkmnx7802@gmail.com>

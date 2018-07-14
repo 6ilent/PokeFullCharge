@@ -14,3 +14,6 @@ include $(THEOS_MAKE_PATH)/tweak.mk
 after-install::
 	echo "Real All The Time."
 	install.exec "killall -9 SpringBoard"
+	
+SUBPROJECTS += pokefullcharge
+include $(THEOS_MAKE_PATH)/aggregate.mk

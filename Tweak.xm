@@ -116,30 +116,6 @@ AVAudioPlayer *lowplayer;
 }
 %end
 
-%hook UIStatusBarWindow
-
-%new
-- (void)alert {
-  UIAlertView *aAlert = [[UIAlertView alloc]initWithTitle:@"soundFilePath" message: [NSString stringWithFormat:@"Sound selected: %ld", (long)sound] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-  [aAlert show];
-  [aAlert release];
-
-  UIAlertView *bAlert = [[UIAlertView alloc]initWithTitle:@"soundFilePath" message: [NSString stringWithFormat:@"Low Sound selected: %ld", (long)lowsound] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-  [bAlert show];
-  [bAlert release];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = %orig;
-
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alert)];
-    tapRecognizer.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:tapRecognizer];
-
-    return self;
-}
-%end
-
 //Reloads the Preferences
 static void reloadPrefs() {
   //Identifies our tweak

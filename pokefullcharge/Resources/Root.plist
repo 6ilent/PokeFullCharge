@@ -42,9 +42,37 @@
 			<key>defaults</key><string>com.6ilent.pokefullcharge</string>
 			<key>detail</key><string>PSDetailController</string>
 			<key>key</key><string>batPercent</string>
-			<key>label</key><string>Battery Percent</string>
+			<key>label</key><string>Battery Percent:</string>
 			<key>placeholder</key><string>0 - 100</string>
 			<key>PostNotification</key><string>com.6ilent.pokefullcharge/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key><string>PSLinkListCell</string>
+			<key>key</key><string>sound</string>
+			<key>default</key><integer>0</integer>
+			<key>PostNotification</key><string>com.6ilent.pokefullcharge/ReloadPrefs</string>
+			<key>label</key><string>Health Up Sound:</string>
+			<key>defaults</key><string>com.6ilent.pokefullcharge</string>
+			<key>detail</key><string>PSListItemsController</string>
+			<key>validTitles</key>
+			<array>
+				<string>Fully Healed</string>
+				<string>Critical Health</string>
+				<string>Metal Gear Solid: Alert!</string>
+				<string>Switch: Bing</string>
+				<string>Switch: Enter</string>
+				<string>Switch: User</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
+				<integer>4</integer>
+				<integer>5</integer>
+			</array>
 		</dict>
 
 		<dict>
@@ -68,9 +96,37 @@
 			<key>defaults</key><string>com.6ilent.pokefullcharge</string>
 			<key>detail</key><string>PSDetailController</string>
 			<key>key</key><string>lowbatPercent</string>
-			<key>label</key><string>Battery Percent</string>
+			<key>label</key><string>Battery Percent:</string>
 			<key>placeholder</key><string>0 - 100</string>
 			<key>PostNotification</key><string>com.6ilent.pokefullcharge/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key><string>PSLinkListCell</string>
+			<key>key</key><string>lowsound</string>
+			<key>default</key><integer>1</integer>
+			<key>PostNotification</key><string>com.6ilent.pokefullcharge/ReloadPrefs</string>
+			<key>label</key><string>Low Health Sound:</string>
+			<key>defaults</key><string>com.6ilent.pokefullcharge</string>
+			<key>detail</key><string>PSListItemsController</string>
+			<key>validTitles</key>
+			<array>
+				<string>Fully Healed</string>
+				<string>Critical Health</string>
+				<string>Metal Gear Solid: Alert!</string>
+				<string>Switch: Bing</string>
+				<string>Switch: Enter</string>
+				<string>Switch: User</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
+				<integer>4</integer>
+				<integer>5</integer>
+			</array>
 		</dict>
 
 		<dict>
@@ -94,7 +150,7 @@
 
 		<dict>
 			<key>cell</key><string>PSButtonCell</string>
-			<key>label</key><string>Buy me a drink! (Paypal)</string>
+			<key>label</key><string>Buy Me a Drink! (Paypal)</string>
 			<key>icon</key><string>paypal.png</string>
 			<key>action</key><string>openPaypal</string>
 		</dict>

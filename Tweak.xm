@@ -8,11 +8,14 @@
 #define kSettingsChangedNotification (CFStringRef)@"com.6ilent.pokefullcharge/ReloadPrefs"
 #define kSettingsPath @"/var/mobile/Library/Preferences/com.6ilent.pokefullcharge.plist"
 
-//Variables from the preference fil
+//Variables from the preference file
+static NSString *bundlePrefix = @"/Library/MobileSubstrate/DynamicLibraries/com.6ilent.pokefullcharge.bundle";
 static BOOL enabled;
 static BOOL lowenabled;
 static NSInteger batPercent;
 static NSInteger lowbatPercent;
+static NSInteger sound;
+static NSInteger lowsound;
 
 //Creates the audio player
 AVAudioPlayer *player;
@@ -37,7 +40,7 @@ AVAudioPlayer *lowplayer;
     NSString *lowbatPercent_String = [NSString stringWithFormat:@"%ld", (long)lowbatPercent];
 
     //Sound player path variables
-    NSString *soundFilePath;
+    NSString *soundFilePath = nil;
     NSURL *soundFileURL;
 
     //Runs the code IF the tweak is ENABLED
@@ -49,8 +52,21 @@ AVAudioPlayer *lowplayer;
           return;
         }
 
+        //Sets the sound paths sound
+        if (sound == 0)
+          soundFilePath = [NSString stringWithFormat:@"%@/heal.mp3", bundlePrefix];
+        else if (sound == 1)
+          soundFilePath = [NSString stringWithFormat:@"%@/lowhealth.mp3", bundlePrefix];
+        else if (sound == 2)
+          soundFilePath = [NSString stringWithFormat:@"%@/solidalert.mp3", bundlePrefix];
+        else if (sound == 3)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_bing.wav", bundlePrefix];
+        else if (sound == 4)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_enter.wav", bundlePrefix];
+        else if (sound == 5)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_user.wav", bundlePrefix];
+
         //Grabs the sound file from the bundle path and makes the NSURL equal to it
-        soundFilePath = @"/Library/MobileSubstrate/DynamicLibraries/com.6ilent.pokefullcharge.bundle/heal.mp3";
         soundFileURL = [NSURL fileURLWithPath:soundFilePath];
 
         //Makes the audio player object and plays the sound 0(actually 1) time(s)
@@ -58,21 +74,34 @@ AVAudioPlayer *lowplayer;
         player.numberOfLoops = 0;
         [player play];
       } else {
-        // // NO: set the value to no
         if (player) {
           player = nil;
         }
       }
     }
 
-    //The same as above but this time with the low health
+    //Same as above but with the low variables instead
     if (lowenabled) {
       if ([batString isEqualToString:lowbatPercent_String]) {
         if (lowplayer) {
           return;
         }
 
-        soundFilePath = @"/Library/MobileSubstrate/DynamicLibraries/com.6ilent.pokefullcharge.bundle/lowhealth.mp3";
+        if (lowsound == 0)
+          soundFilePath = [NSString stringWithFormat:@"%@/heal.mp3", bundlePrefix];
+        else if (lowsound == 1)
+          soundFilePath = [NSString stringWithFormat:@"%@/lowhealth.mp3", bundlePrefix];
+        else if (lowsound == 2)
+          soundFilePath = [NSString stringWithFormat:@"%@/solidalert.mp3", bundlePrefix];
+        else if (lowsound == 3)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_bing.wav", bundlePrefix];
+        else if (lowsound == 4)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_enter.wav", bundlePrefix];
+        else if (lowsound == 5)
+          soundFilePath = [NSString stringWithFormat:@"%@/switch_user.wav", bundlePrefix];
+        else
+          soundFilePath = [NSString stringWithFormat:@"%@/lowhealth.mp3", bundlePrefix];
+
         soundFileURL = [NSURL fileURLWithPath:soundFilePath];
 
         lowplayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
@@ -84,6 +113,30 @@ AVAudioPlayer *lowplayer;
         }
       }
     }
+}
+%end
+
+%hook UIStatusBarWindow
+
+%new
+- (void)alert {
+  UIAlertView *aAlert = [[UIAlertView alloc]initWithTitle:@"soundFilePath" message: [NSString stringWithFormat:@"Sound selected: %ld", (long)sound] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+  [aAlert show];
+  [aAlert release];
+
+  UIAlertView *bAlert = [[UIAlertView alloc]initWithTitle:@"soundFilePath" message: [NSString stringWithFormat:@"Low Sound selected: %ld", (long)lowsound] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+  [bAlert show];
+  [bAlert release];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = %orig;
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alert)];
+    tapRecognizer.numberOfTapsRequired = 2;
+    [self addGestureRecognizer:tapRecognizer];
+
+    return self;
 }
 %end
 
@@ -114,7 +167,10 @@ static void reloadPrefs() {
   batPercent = [prefs objectForKey:@"batPercent"] ? [[prefs objectForKey:@"batPercent"] integerValue] : 100;
   lowenabled = [prefs objectForKey:@"lowenabled"] ? [(NSNumber *)[prefs objectForKey:@"lowenabled"] boolValue] : false;
   lowbatPercent = [prefs objectForKey:@"lowbatPercent"] ? [[prefs objectForKey:@"lowbatPercent"] integerValue] : 20;
+  sound = [prefs objectForKey:@"sound"] ? [[prefs objectForKey:@"sound"] integerValue] : 0;
+  lowsound = [prefs objectForKey:@"lowsound"] ? [[prefs objectForKey:@"lowsound"] integerValue] : 1;
 }
+
 
 //The constructor of our tweak (What gets loaded before anything else, in a sense the "entry point" of our tweak)
 // // Make sure it's at the end so everything gets loaded into memory first and then can construct

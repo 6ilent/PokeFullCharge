@@ -76,6 +76,12 @@
 		</dict>
 
 		<dict>
+			<key>cell</key><string>PSButtonCell</string>
+			<key>label</key><string>Play the Health Up Sound!</string>
+			<key>action</key><string>playSound</string>
+		</dict>
+
+		<dict>
 			<key>cell</key><string>PSGroupCell</string>
 			<key>label</key><string>Low Health Settings</string>
 		</dict>
@@ -127,6 +133,12 @@
 				<integer>4</integer>
 				<integer>5</integer>
 			</array>
+		</dict>
+
+		<dict>
+			<key>cell</key><string>PSButtonCell</string>
+			<key>label</key><string>Play the Low Health Sound!</string>
+			<key>action</key><string>playlowSound</string>
 		</dict>
 
 		<dict>
